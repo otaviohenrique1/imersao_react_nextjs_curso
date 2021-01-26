@@ -1,10 +1,14 @@
-import styled from 'styled-components'
-import db from "../db.json";
-import Widget from "../src/components/Widget";
-import QuizBackground from "../src/components/QuizBackground";
-import QuizLogo from '../src/components/QuizLogo'
-import Footer from "../src/components/Footer";
-import GitHubCorner from "../src/components/GitHubCorner";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+
+import db from '../db.json';
+import Widget from '../src/components/Widget';
+import QuizBackground from '../src/components/QuizBackground';
+import QuizLogo from '../src/components/QuizLogo';
+import Footer from '../src/components/Footer';
+import GitHubCorner from '../src/components/GitHubCorner';
 
 // const BackgroundImage = styled.div`
 //   background-image: url(${db.bg});
@@ -25,16 +29,48 @@ export const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = useState('');
+
   return (
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>AluraQuiz - Modelo Base</title>
+      </Head>
       <QuizContainer>
         <QuizLogo />
         <Widget>
           <Widget.Header>
-            <h1>{db.title}</h1>
+            {/* <h1>{db.title}</h1> */}
+            <h1>The Legend of Zelda</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>{db.description}</p>
+            {/* <p>{db.description}</p> */}
+            {/* eslint-disable-next-line func-names */}
+            <form onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault();
+              router.push(`/quiz?name=${name}`);
+              // eslint-disable-next-line no-console
+              console.log('fazendo uma submissao');
+            }}
+            >
+              <input
+                // eslint-disable-next-line func-names
+                onChange={function (e) {
+                  setName(e.target.value);
+                }}
+                type="text"
+                placeholder="Diz ai seu nome"
+              />
+              <button
+                type="submit"
+                disabled={name.length === 0}
+              >
+                Jogar
+                {' '}
+                {name}
+              </button>
+            </form>
           </Widget.Content>
         </Widget>
         <Widget>
@@ -43,7 +79,7 @@ export default function Home() {
             <p>Lorem ipsum dolor sit amet...</p>
           </Widget.Content>
         </Widget>
-        <Footer/>
+        <Footer />
       </QuizContainer>
       <GitHubCorner projectUrl="https://github.com/otaviohenrique1" />
     </QuizBackground>
