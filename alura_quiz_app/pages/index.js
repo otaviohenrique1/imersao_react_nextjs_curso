@@ -1,32 +1,16 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import db from '../db.json';
 import Widget from '../src/components/Widget';
+import QuizContainer from '../src/components/QuizContainer';
 import QuizBackground from '../src/components/QuizBackground';
 import QuizLogo from '../src/components/QuizLogo';
 import Footer from '../src/components/Footer';
 import GitHubCorner from '../src/components/GitHubCorner';
-
-// const BackgroundImage = styled.div`
-//   background-image: url(${db.bg});
-//   flex: 1;
-//   background-size: cover;
-//   background-position: center;
-// `;
-
-export const QuizContainer = styled.div`
-  width: 100%;
-  max-width: 350px;
-  padding-top: 45px;
-  margin: auto 10%;
-  @media screen and (max-width: 500px) {
-    margin: auto;
-    padding: 15px;
-  }
-`;
+import Input from '../src/components/Input';
+import Button from '../src/components/Button';
 
 export default function Home() {
   const router = useRouter();
@@ -41,42 +25,34 @@ export default function Home() {
         <QuizLogo />
         <Widget>
           <Widget.Header>
-            {/* <h1>{db.title}</h1> */}
-            <h1>The Legend of Zelda</h1>
+            <h1>{db.title}</h1>
           </Widget.Header>
           <Widget.Content>
-            {/* <p>{db.description}</p> */}
             {/* eslint-disable-next-line func-names */}
             <form onSubmit={function (infosDoEvento) {
               infosDoEvento.preventDefault();
               router.push(`/quiz?name=${name}`);
-              // eslint-disable-next-line no-console
-              console.log('fazendo uma submissao');
             }}
             >
-              <input
-                // eslint-disable-next-line func-names
-                onChange={function (e) {
-                  setName(e.target.value);
-                }}
-                type="text"
+              <Input
+                name="nomeDoUsuario"
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Diz ai seu nome"
+                value={name}
               />
-              <button
+              <Button
                 type="submit"
                 disabled={name.length === 0}
               >
-                Jogar
-                {' '}
-                {name}
-              </button>
+                {`Jogar ${name}`}
+              </Button>
             </form>
           </Widget.Content>
         </Widget>
         <Widget>
           <Widget.Content>
-            <h1>the legend of zelda</h1>
-            <p>Lorem ipsum dolor sit amet...</p>
+            <h1>{db.title}</h1>
+            <p>{db.description}</p>
           </Widget.Content>
         </Widget>
         <Footer />
